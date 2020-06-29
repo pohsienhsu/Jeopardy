@@ -1,0 +1,91 @@
+/* some colors you may find useful:
+  #115ff4
+  #060ce9
+  #28a200
+  #8d2ab5
+  #74119c
+*/
+body {
+  background-color: #1b1c1c;
+}
+
+.gameTitle {
+  font-weight: 700;
+  color: #f09d0e;
+  text-shadow: 2px 2px white;
+}
+
+.titleLetter {
+  -webkit-transition: text-shadow 2s ease;
+  -moz-transition: text-shadow 2s ease;
+  -o-transition: text-shadow 2s ease;
+  transition: text-shadow 2s ease;
+  }
+
+.tableCol {
+  padding: 0 0.2rem;
+  margin: 0 0;
+}
+
+.tableColHead {
+  display: flex;
+  width: 100%;
+  height: 6rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3rem 0.3rem 0.7rem 0.3rem;
+  background-color: #115ff4;
+  color: white;
+  border: solid 5px #060ce9;
+}
+
+.catDiv {
+
+}
+
+.tableCell {
+  display: flex;
+  width: 100%;
+  height: 7rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3rem;
+  transition: color 300ms, border-color 300ms;
+  
+  color: #828487;
+  border: 2px solid #828487;
+}
+/* .tableCell:hover{
+  color: white;
+  transition: color 300ms;
+} */
+
+.qDiv {
+  font-size: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 90%;
+  margin: 0.5rem 0.2rem;
+  padding: 0.5rem;
+}
+
+.loadingIcon {
+  color: #6e6b66;
+}
+
+#start {
+  color: white;
+  font-size: 4rem;
+  transition: color 2000ms;
+  -webkit-transition: text-shadow 0.3s ease;
+  -moz-transition: text-shadow 0.3s ease;
+  -o-transition: text-shadow 0.3s ease;
+  transition: text-shadow 0.3s ease;
+}
+#start:hover {
+  color: white;
+  font-size: 4rem;
+  text-shadow: 3px 3px #060ce9;
+}
