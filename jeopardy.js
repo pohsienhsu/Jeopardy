@@ -32,7 +32,7 @@ setInterval(function() {
   const $titleLetters = $('span');
   for (let $letter of $titleLetters) {
     const rgb = randomColor();
-    $letter.style.textShadow = `2px 2px ${rgb}`;
+    $letter.style.textShadow = `3px 3px ${rgb}`;
   }
 }, 2000);
 
@@ -101,7 +101,8 @@ function makeTable(catNum, clueNum) {
     const $header = $(`<div class="tableColHead rounded" id="cat${col+1}-h">`);
     $col.append($header);
     for (let row = 0; row < clueNum; row++) {
-      const $cell = $(`<div class="tableCell rounded" id="cat${col+1}-q${row+1}">`);
+      const $cell = $(`<div class="tableCell rounded justify-content-center align-items-center" id="cat${col+1}-q${row+1}">`);
+      $cell.on('click', showQuestionDiv);
       $col.append($cell);
     }
     $row.append($col);
@@ -132,17 +133,50 @@ async function fillTable(catNum, clueNum) {
     for (let row = 0; row < clueNum; row++) {
       // adding the categories' questions and answers as data and the question mark
       const clueArr = catObj.clues;
-      const $qDiv = $(`<div class="qDiv text-left">`);
+      const $qDiv = $(`<div class="qDiv text-left overflow-auto">`);
       $qDiv.attr('data-cat-index', col);
       $qDiv.attr('data-clue-index', row);
       // $qDiv.attr(`data-clue-question`, clueArr[row].question);
       // $qDiv.attr(`data-clue-answer`, clueArr[row].answer);
-      const $questionMark = $('<i class="far fa-question-circle h2">');
+      const $questionMark = $(`<i class="far fa-question-circle h2">`);
+      $questionMark.on('click', handleClick);
+      $questionMark.on('mouseenter', mouseenterEffect);
+      $questionMark.on('mouseleave', mouseleaveEffect);
+      $(`#cat${col+1}-q${row+1}`).append($questionMark);
+      // $qDiv.append($questionMark);
       $qDiv.on('click', handleClick);
       $qDiv.on('mouseenter', mouseenterEffect);
       $qDiv.on('mouseleave', mouseleaveEffect);
-      $qDiv.append($questionMark);
+      $qDiv.hide();
       $(`#cat${col+1}-q${row+1}`).append($qDiv);
+    }
+  }
+}
+
+function showQuestionDiv(evt) {
+  if (evt.target.classList.contains("clicked")) {
+    return;
+  }
+  else if (evt.target.classList.contains('tableCell') || evt.target.tagName === "I") {
+    const $target = (evt.target.classList.contains('tableCell') ? $(evt.target) : $(evt.target.parentElement));
+    $target.addClass("clicked");
+    const dataId = $target.attr("data-id");
+    const $qDiv = $target.children(".qDiv");
+    $qDiv.show();
+    const $questionMark = $target.children("i");
+    $questionMark.hide();
+    $qDiv.css("color", "white");
+    $qDiv.css("border-top", "2px solid red");
+    const catIndex = $qDiv.attr('data-cat-index');
+    const clueIndex = $qDiv.attr('data-clue-index');
+    // console.log(catIndex, clueIndex);
+    const clueQuestion = categories[catIndex].clues[clueIndex].question;
+    const clueAnswer = categories[catIndex].clues[clueIndex].answer;
+    let clueShowing = categories[catIndex].clues[clueIndex].showing;
+    if (clueShowing === null) {
+    $qDiv.html("");
+    $qDiv.html('<p class="something">' + clueQuestion + '</p>');
+    categories[catIndex].clues[clueIndex].showing = "question";
     }
   }
 }
@@ -156,25 +190,35 @@ async function fillTable(catNum, clueNum) {
  * */
 
 function handleClick(evt) {
-  if (evt.target.classList.contains('qDiv') || evt.target.tagName === "I") {
+  if (evt.target.classList.contains('qDiv') || evt.target.tagName === "P") {
     const $target = (evt.target.classList.contains('qDiv') ? $(evt.target) : $(evt.target.parentElement));
-    $target.css("color", "white");
-    $target.css("border", "1px solid red");
+    // $target.css("color", "white");
+    // $target.css("border", "1px solid red");
     const catIndex = $target.attr('data-cat-index');
     const clueIndex = $target.attr('data-clue-index');
-    // console.log(catIndex, clueIndex);
+    // // console.log(catIndex, clueIndex);
     const clueQuestion = categories[catIndex].clues[clueIndex].question;
     const clueAnswer = categories[catIndex].clues[clueIndex].answer;
     let clueShowing = categories[catIndex].clues[clueIndex].showing;
-    if (clueShowing === null) {
-      $target.html("");
-      $target.text(clueQuestion);
-      categories[catIndex].clues[clueIndex].showing = "question";
-    } else if (clueShowing === "question") {
+    // if (clueShowing === null) {
+    //   $target.html("");
+    //   $target.html('<p class="something" style="display:block;overflow:auto;">' + clueQuestion + '</p>');
+    //   categories[catIndex].clues[clueIndex].showing = "question";
+    // }
+    if (clueShowing === "question") {
+      $target.html('');
       $target.text(clueAnswer);
       clueShowing = "answer";
-      $target.css("border", "1px solid green");
-      $target.css("font-size", "0.8rem");
+      $target.css({
+        "display": "flex",
+        "border": "2px solid green",
+        "font-size": "0.9rem"
+      })
+      // $target.css("display", "flex");
+      $target.addClass("justify-content-center");
+      $target.addClass("align-items-center");
+      // $target.css("border", "2px solid green");
+      // $target.css("font-size", "0.9rem");
     }
   }
 }
