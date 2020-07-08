@@ -67,7 +67,7 @@ async function getCategoryIds(amount) {
  */
 
 async function getCategory(catId, amount) {
-  const response = await axios.get(`http://jservice.io/api/category?id=${catId}`);
+  const response = await axios.get(`https://jservice.io/api/category?id=${catId}`);
   // console.log(response);
   const cluesSampleArr = _.sampleSize(response.data.clues, amount);
   const cluesObjArr = cluesSampleArr.reduce((acc, next) => {
