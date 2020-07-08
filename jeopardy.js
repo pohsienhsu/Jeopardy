@@ -42,7 +42,7 @@ setInterval(function() {
  */
 
 async function getCategoryIds(amount) {
-  const response = await axios.get(`http://jservice.io/api/categories?count=100`);
+  const response = await axios.get(`https://jservice.io/api/categories?count=100`);
   // console.log(response);
   const categoriesArr = _.sampleSize(response.data, amount);
   // console.log(categoriesArr);
